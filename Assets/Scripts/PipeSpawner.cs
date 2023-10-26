@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PipeSpawner : MonoBehaviour
 {
-    public GameObject pipeSpawner;
     float spawnRate = 1.5f;
     float minHeight = -4, maxHeight = 0.5f;
     // Start is called before the first frame update
@@ -14,12 +13,13 @@ public class PipeSpawner : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
 
-    }
     void SpawnPipe()
     {
-        Instantiate(pipeSpawner, new Vector3(4, Random.Range(minHeight, maxHeight)), Quaternion.identity);
+        if (GameManager.instance.gameState != GameManager.GameState.Play)
+            return;
+        GameObject pipe = ObjectPooler.instance.GetPooledObject();
+        pipe.transform.position = new Vector2(4, Random.Range(minHeight, maxHeight));
+        pipe.gameObject.SetActive(true);
     }
 }
